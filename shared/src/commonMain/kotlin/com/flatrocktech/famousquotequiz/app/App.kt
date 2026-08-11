@@ -6,9 +6,9 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import com.flatrocktech.famousquotequiz.core.theme.FamousQuoteQuizTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -29,7 +29,7 @@ import com.flatrocktech.famousquotequiz.feature.settings.presentation.SettingsSc
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    FamousQuoteQuizTheme {
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
