@@ -14,6 +14,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 import com.flatrocktech.famousquotequiz.core.presentation.components.InsightOutlinedTextField
 import com.flatrocktech.famousquotequiz.core.theme.FamousQuoteQuizTheme
 import famousquotequiz.shared.generated.resources.Res
@@ -41,7 +42,7 @@ fun EmailTextField(
                 imageVector = Icons.Default.Email,
                 contentDescription = null,
                 tint = if (error != null) colorScheme.error else colorScheme.outline,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(Dimensions.IconSmall)
             )
         },
         isError = error != null,
@@ -57,7 +58,7 @@ fun EmailTextField(
 @Composable
 fun EmailTextFieldPreview() {
     FamousQuoteQuizTheme {
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier.padding(Dimensions.PaddingMedium)) {
             EmailTextField(
                 value = "",
                 onValueChange = {}
@@ -70,7 +71,7 @@ fun EmailTextFieldPreview() {
 @Composable
 fun EmailTextFieldErrorPreview() {
     FamousQuoteQuizTheme {
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier.padding(Dimensions.PaddingMedium)) {
             EmailTextField(
                 value = "invalid-email",
                 onValueChange = {},

@@ -25,14 +25,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 import famousquotequiz.shared.generated.resources.Res
 import famousquotequiz.shared.generated.resources.content_desc_hide_password
 import famousquotequiz.shared.generated.resources.content_desc_show_password
@@ -56,7 +54,7 @@ fun PasswordTextField(
     val colorScheme = MaterialTheme.colorScheme
     var passwordVisible by remember { mutableStateOf(false) }
 
-    Column(verticalArrangement = Arrangement.spacedBy(0.dp), modifier = modifier) {
+    Column(verticalArrangement = Arrangement.spacedBy(Dimensions.SpacingZero), modifier = modifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -64,24 +62,17 @@ fun PasswordTextField(
         ) {
             Text(
                 text = stringResource(Res.string.password_label),
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = colorScheme.onSurfaceVariant,
-                    letterSpacing = 0.14.sp
-                )
+                style = MaterialTheme.typography.titleSmall,
+                color = colorScheme.onSurfaceVariant
             )
             TextButton(
                 onClick = onForgotPasswordClick,
-                contentPadding = PaddingValues(0.dp)
+                contentPadding = PaddingValues(Dimensions.SpacingZero)
             ) {
                 Text(
                     text = stringResource(Res.string.forgot_password),
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        color = colorScheme.secondary,
-                        fontWeight = FontWeight.Medium
-                    )
+                    style = MaterialTheme.typography.labelMedium,
+                    color = colorScheme.secondary
                 )
             }
         }
@@ -96,7 +87,7 @@ fun PasswordTextField(
                     imageVector = Icons.Default.Lock,
                     contentDescription = null,
                     tint = if (error != null) colorScheme.error else colorScheme.outline,
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(Dimensions.IconSmall)
                 )
             },
             trailingIcon = {
@@ -107,7 +98,7 @@ fun PasswordTextField(
                             Res.string.content_desc_show_password
                         ),
                         tint = colorScheme.outline,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(Dimensions.IconSmall)
                     )
                 }
             },
@@ -126,7 +117,7 @@ fun PasswordTextField(
 @Composable
 fun PasswordTextFieldPreview() {
     FamousQuoteQuizTheme {
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier.padding(Dimensions.PaddingMedium)) {
             PasswordTextField(
                 value = "",
                 onValueChange = {}
@@ -139,7 +130,7 @@ fun PasswordTextFieldPreview() {
 @Composable
 fun PasswordTextFieldErrorPreview() {
     FamousQuoteQuizTheme {
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier.padding(Dimensions.PaddingMedium)) {
             PasswordTextField(
                 value = "wrong password",
                 onValueChange = {},

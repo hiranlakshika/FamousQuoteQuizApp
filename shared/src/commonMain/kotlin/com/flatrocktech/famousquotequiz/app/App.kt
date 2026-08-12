@@ -8,12 +8,10 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
-import com.flatrocktech.famousquotequiz.core.theme.FamousQuoteQuizTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -21,13 +19,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.flatrocktech.famousquotequiz.core.theme.FamousQuoteQuizTheme
 import com.flatrocktech.famousquotequiz.feature.auth.presentation.LoginScreen
 import com.flatrocktech.famousquotequiz.feature.profile.presentation.ProfileScreen
 import com.flatrocktech.famousquotequiz.feature.quiz.presentation.QuizScreen
 import com.flatrocktech.famousquotequiz.feature.settings.presentation.SettingsScreen
 
 @Composable
-@Preview
 fun App() {
     FamousQuoteQuizTheme {
         val navController = rememberNavController()

@@ -29,10 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 import androidx.compose.ui.unit.sp
 import com.flatrocktech.famousquotequiz.core.presentation.components.PrimaryButton
 import com.flatrocktech.famousquotequiz.feature.auth.presentation.components.BrandingHeader
@@ -77,30 +76,30 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp, vertical = 32.dp),
+                .padding(horizontal = Dimensions.ScreenPadding, vertical = Dimensions.SpacingExtraLarge),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .widthIn(max = 400.dp)
+                    .widthIn(max = Dimensions.LoginCardMaxWidth)
                     .shadow(
-                        elevation = 8.dp,
-                        shape = RoundedCornerShape(16.dp),
+                        elevation = Dimensions.ElevationLarge,
+                        shape = RoundedCornerShape(Dimensions.RadiusMedium),
                         ambientColor = colorScheme.primary.copy(alpha = 0.06f),
                         spotColor = colorScheme.primary.copy(alpha = 0.06f)
                     ),
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(Dimensions.RadiusMedium),
                 colors = CardDefaults.cardColors(containerColor = colorScheme.surface),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                elevation = CardDefaults.cardElevation(defaultElevation = Dimensions.ElevationNone)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp),
+                        .padding(Dimensions.PaddingLarge),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
+                    verticalArrangement = Arrangement.spacedBy(Dimensions.PaddingLarge)
                 ) {
                     BrandingHeader()
 
@@ -115,23 +114,17 @@ fun LoginScreen(
                     ) {
                         Text(
                             text = stringResource(Res.string.no_account),
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                color = colorScheme.onSurfaceVariant,
-                                fontWeight = FontWeight.Normal
-                            )
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = colorScheme.onSurfaceVariant
                         )
                         TextButton(
                             onClick = {},
-                            contentPadding = PaddingValues(0.dp)
+                            contentPadding = PaddingValues(Dimensions.SpacingZero)
                         ) {
                             Text(
                                 text = stringResource(Res.string.sign_up),
-                                style = TextStyle(
-                                    fontSize = 14.sp,
-                                    color = colorScheme.secondary,
-                                    fontWeight = FontWeight.SemiBold
-                                )
+                                style = MaterialTheme.typography.labelLarge,
+                                color = colorScheme.secondary
                             )
                         }
                     }
@@ -147,7 +140,7 @@ private fun LoginForm(
     onIntent: (LoginIntent) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(Dimensions.PaddingMedium),
         modifier = Modifier.fillMaxWidth()
     ) {
         EmailTextField(
@@ -165,7 +158,7 @@ private fun LoginForm(
             imeAction = ImeAction.Done
         )
 
-        Spacer(Modifier.height(4.dp))
+        Spacer(Modifier.height(Dimensions.SpacingExtraSmall))
 
         PrimaryButton(
             text = stringResource(Res.string.login_title),

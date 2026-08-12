@@ -17,11 +17,9 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 
 @Composable
 fun InsightOutlinedTextField(
@@ -42,13 +40,9 @@ fun InsightOutlinedTextField(
         if (label != null) {
             Text(
                 text = label,
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = colorScheme.onSurfaceVariant,
-                    letterSpacing = 0.14.sp
-                ),
-                modifier = Modifier.padding(bottom = 4.dp)
+                style = MaterialTheme.typography.labelLarge,
+                color = colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = Dimensions.SpacingExtraSmall)
             )
         }
         OutlinedTextField(
@@ -58,10 +52,8 @@ fun InsightOutlinedTextField(
             placeholder = {
                 Text(
                     text = placeholder,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        color = colorScheme.outline.copy(alpha = 0.7f)
-                    )
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = colorScheme.outline.copy(alpha = 0.7f)
                 )
             },
             leadingIcon = leadingIcon,
@@ -70,7 +62,7 @@ fun InsightOutlinedTextField(
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             singleLine = true,
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(Dimensions.RadiusSmall),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = colorScheme.secondary,
                 unfocusedBorderColor = colorScheme.outline.copy(alpha = 0.5f),
@@ -92,12 +84,9 @@ fun InsightOutlinedTextField(
         ) {
             Text(
                 text = errorMessage ?: "",
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    color = colorScheme.error,
-                    fontWeight = FontWeight.Medium
-                ),
-                modifier = Modifier.padding(start = 4.dp, top = 4.dp)
+                style = MaterialTheme.typography.labelMedium,
+                color = colorScheme.error,
+                modifier = Modifier.padding(start = Dimensions.SpacingExtraSmall, top = Dimensions.SpacingExtraSmall)
             )
         }
     }

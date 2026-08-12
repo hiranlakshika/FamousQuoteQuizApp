@@ -15,11 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 import androidx.compose.ui.tooling.preview.Preview
 import com.flatrocktech.famousquotequiz.core.theme.FamousQuoteQuizTheme
 import famousquotequiz.shared.generated.resources.Res
@@ -32,44 +30,34 @@ fun BrandingHeader() {
     val colorScheme = MaterialTheme.colorScheme
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(Dimensions.SpacingSmall),
     ) {
         Box(
             modifier = Modifier
-                .size(64.dp)
+                .size(Dimensions.BrandingLogoSize)
                 .background(color = colorScheme.primary, shape = CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "\u201C",
-                style = TextStyle(
-                    fontSize = 36.sp,
-                    color = colorScheme.onPrimary,
-                    fontWeight = FontWeight.Bold,
-                ),
-                modifier = Modifier.offset(y = (12).dp)
+                style = MaterialTheme.typography.displayMedium,
+                color = colorScheme.onPrimary,
+                modifier = Modifier.offset(y = Dimensions.SpacingSmall + Dimensions.SpacingExtraSmall)
             )
         }
 
-        Spacer(Modifier.height(4.dp))
+        Spacer(Modifier.height(Dimensions.SpacingExtraSmall))
 
         Text(
             text = stringResource(Res.string.app_name),
-            style = TextStyle(
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorScheme.primary,
-                letterSpacing = (-0.64).sp
-            )
+            style = MaterialTheme.typography.titleLarge,
+            color = colorScheme.primary
         )
 
         Text(
             text = stringResource(Res.string.branding_subtitle),
-            style = TextStyle(
-                fontSize = 14.sp,
-                color = colorScheme.onSurfaceVariant,
-                fontWeight = FontWeight.Normal
-            ),
+            style = MaterialTheme.typography.bodyMedium,
+            color = colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
     }
@@ -82,7 +70,7 @@ fun BrandingHeaderPreview() {
         Box(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
-                .padding(16.dp)
+                .padding(Dimensions.PaddingMedium)
         ) {
             BrandingHeader()
         }

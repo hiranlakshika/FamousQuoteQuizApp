@@ -45,6 +45,7 @@ fun FamousQuoteQuizTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
+        typography = Typography,
         content = content
     )
 }

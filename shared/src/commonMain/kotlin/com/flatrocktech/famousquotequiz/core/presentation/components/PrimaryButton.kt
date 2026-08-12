@@ -12,10 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.padding
 import com.flatrocktech.famousquotequiz.core.theme.FamousQuoteQuizTheme
@@ -33,9 +31,9 @@ fun PrimaryButton(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .height(50.dp),
+            .height(Dimensions.ButtonHeight),
         enabled = enabled && !isLoading,
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(Dimensions.RadiusSmall),
         colors = ButtonDefaults.buttonColors(
             containerColor = colorScheme.primary,
             contentColor = colorScheme.onPrimary,
@@ -43,24 +41,21 @@ fun PrimaryButton(
             disabledContentColor = colorScheme.onPrimary.copy(alpha = 0.6f)
         ),
         elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = 2.dp,
-            pressedElevation = 0.dp
+            defaultElevation = Dimensions.ElevationSmall,
+            pressedElevation = Dimensions.ElevationNone
         )
     ) {
         if (isLoading) {
             CircularProgressIndicator(
-                modifier = Modifier.size(20.dp),
+                modifier = Modifier.size(Dimensions.IconSmall),
                 color = colorScheme.onPrimary,
-                strokeWidth = 2.dp
+                strokeWidth = Dimensions.SpacingTiny
             )
         } else {
             Text(
                 text = text,
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    letterSpacing = 0.14.sp
-                )
+                style = MaterialTheme.typography.labelLarge,
+                color = colorScheme.onPrimary
             )
         }
     }
@@ -70,7 +65,7 @@ fun PrimaryButton(
 @Composable
 fun PrimaryButtonPreview() {
     FamousQuoteQuizTheme {
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier.padding(Dimensions.PaddingMedium)) {
             PrimaryButton(
                 text = "Login",
                 onClick = {}
@@ -83,7 +78,7 @@ fun PrimaryButtonPreview() {
 @Composable
 fun PrimaryButtonLoadingPreview() {
     FamousQuoteQuizTheme {
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier.padding(Dimensions.PaddingMedium)) {
             PrimaryButton(
                 text = "Login",
                 onClick = {},
