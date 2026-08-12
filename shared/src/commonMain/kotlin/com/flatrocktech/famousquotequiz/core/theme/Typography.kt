@@ -32,7 +32,8 @@ val Typography = Typography(
     ),
     bodyLarge = TextStyle(
         fontSize = 16.sp,
-        fontWeight = FontWeight.Normal
+        fontWeight = FontWeight.Normal,
+        lineHeight = 24.sp
     ),
     bodyMedium = TextStyle(
         fontSize = 14.sp,
@@ -52,4 +53,11 @@ val Typography = Typography(
         fontWeight = FontWeight.SemiBold,
         letterSpacing = 0.8.sp
     )
+)
+
+// Custom text styles that don't fit perfectly into M3 Typography tokens
+val ChallengeLabelStyle = TextStyle(
+    fontSize = 11.sp,
+    fontWeight = FontWeight.SemiBold,
+    letterSpacing = 1.2.sp
 )

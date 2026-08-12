@@ -20,7 +20,7 @@ fun BadgeChip(
     Box(
         modifier = Modifier
             .background(containerColor, shape = RoundedCornerShape(Dimensions.RadiusFull))
-            .padding(horizontal = Dimensions.spacingMediumLow, vertical = Dimensions.SpacingExtraSmall)
+            .padding(horizontal = Dimensions.SpacingMediumLow, vertical = Dimensions.SpacingExtraSmall)
     ) {
         Text(
             text = text,

@@ -1,6 +1,7 @@
 package com.flatrocktech.famousquotequiz.core.theme
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 object Dimensions {
     // Spacing and Padding
@@ -8,7 +9,7 @@ object Dimensions {
     val SpacingTiny = 2.dp
     val SpacingExtraSmall = 4.dp
     val SpacingSmall = 8.dp
-    val spacingMediumLow = 12.dp
+    val SpacingMediumLow = 12.dp
     val SpacingMedium = 16.dp
     val SpacingLarge = 24.dp
     val SpacingExtraLarge = 32.dp
@@ -33,7 +34,13 @@ object Dimensions {
     val IconSmall = 20.dp
     val IconMedium = 24.dp
     val IconLarge = 28.dp
+    val IconHuge = 32.dp
     val IconExtraLarge = 52.dp
+    val CategoryChipIconSize = 16.dp
+
+    // Border Widths
+    val BorderThin = 1.dp
+    val BorderThick = 2.dp
 
     // Component Specific
     val ButtonHeight = 50.dp
@@ -45,4 +52,12 @@ object Dimensions {
     val AvatarInnerSize = 88.dp
     val BrandingLogoSize = 64.dp
     val DividerThickness = 0.8.dp
+    
+    val ProgressBarWidth = 128.dp
+    val ProgressBarHeight = 6.dp
+    val DialogMaxWidth = 360.dp
+
+    // Text Specific (SP)
+    val QuoteMarkWatermarkSize = 96.sp
+    val QuoteLineHeight = 28.sp
 }
