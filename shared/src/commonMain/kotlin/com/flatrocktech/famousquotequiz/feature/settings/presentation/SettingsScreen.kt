@@ -66,8 +66,8 @@ fun SettingsScreen(
             Spacer(Modifier.height(Dimensions.SpacingExtraSmall))
 
             QuizPreferencesCard(
-                isMultipleChoiceMode = state.isMultipleChoiceMode,
-                onModeToggled = { viewModel.onIntent(SettingsIntent.OnQuizModeToggled(it)) },
+                quizMode = state.quizMode,
+                onModeChanged = { viewModel.onIntent(SettingsIntent.OnQuizModeChanged(it)) },
                 colorScheme = colorScheme
             )
 

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,6 +28,9 @@ import com.flatrocktech.famousquotequiz.feature.quiz.presentation.components.Qui
 import com.flatrocktech.famousquotequiz.feature.quiz.presentation.components.QuoteCard
 import com.flatrocktech.famousquotequiz.feature.quiz.presentation.components.ResultDialog
 import famousquotequiz.shared.generated.resources.Res
+import famousquotequiz.shared.generated.resources.quiz_restart
+import famousquotequiz.shared.generated.resources.quiz_results_score
+import famousquotequiz.shared.generated.resources.quiz_results_title
 import famousquotequiz.shared.generated.resources.quiz_submit
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -52,50 +56,103 @@ fun QuizScreen(
                 )
             )
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = Dimensions.ScreenPadding, vertical = Dimensions.PaddingLarge)
-                .widthIn(max = Dimensions.ProfileMaxWidth),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(Dimensions.SpacingLarge)
-        ) {
-            QuizHeader(
-                currentQuestion = state.currentQuestion,
-                totalQuestions = state.totalQuestions
+        if (state.isQuizFinished) {
+            QuizResultsSection(
+                correctAnswersCount = state.correctAnswersCount,
+                totalQuestions = state.totalQuestions,
+                onRestart = { viewModel.onIntent(QuizIntent.OnRestartQuiz) },
+                colorScheme = colorScheme
             )
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(
+                        horizontal = Dimensions.ScreenPadding,
+                        vertical = Dimensions.PaddingLarge
+                    )
+                    .widthIn(max = Dimensions.ProfileMaxWidth),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(Dimensions.SpacingLarge)
+            ) {
+                QuizHeader(
+                    currentQuestion = state.currentQuestion,
+                    totalQuestions = state.totalQuestions
+                )
 
-            QuoteCard(
-                quoteText = state.quoteText,
-                category = state.quoteCategory
-            )
+                QuoteCard(
+                    quoteText = state.quoteText,
+                    category = state.quoteCategory
+                )
 
-            ChoicesSection(
-                choices = state.choices,
-                selectedIndex = state.selectedChoiceIndex,
-                correctIndex = state.correctChoiceIndex,
-                isSubmitted = state.isAnswerSubmitted,
-                onChoiceSelected = { viewModel.onIntent(QuizIntent.OnChoiceSelected(it)) }
-            )
+                ChoicesSection(
+                    choices = state.choices,
+                    selectedIndex = state.selectedChoiceIndex,
+                    correctIndex = state.correctChoiceIndex,
+                    isSubmitted = state.isAnswerSubmitted,
+                    onChoiceSelected = { viewModel.onIntent(QuizIntent.OnChoiceSelected(it)) }
+                )
 
-            PrimaryButton(
-                text = stringResource(Res.string.quiz_submit),
-                onClick = { viewModel.onIntent(QuizIntent.OnSubmitAnswer) },
-                enabled = state.selectedChoiceIndex != null && !state.isAnswerSubmitted,
-                modifier = Modifier.fillMaxWidth()
-            )
+                PrimaryButton(
+                    text = stringResource(Res.string.quiz_submit),
+                    onClick = { viewModel.onIntent(QuizIntent.OnSubmitAnswer) },
+                    enabled = state.selectedChoiceIndex != null && !state.isAnswerSubmitted,
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-            Spacer(Modifier.height(Dimensions.SpacingSmall))
+                Spacer(Modifier.height(Dimensions.SpacingSmall))
+            }
         }
 
-        if (state.isAnswerSubmitted && state.isCorrect != null) {
+        if (state.isAnswerSubmitted && state.isCorrect != null && !state.isQuizFinished) {
             ResultDialog(
                 isCorrect = state.isCorrect!!,
-                explanation = state.correctAnswerExplanation,
-                correctAnswer = state.choices.getOrElse(state.correctChoiceIndex ?: 1) { "" },
+                correctAnswer = state.choices.getOrElse(state.correctChoiceIndex ?: 0) { "" },
                 onNextQuestion = { viewModel.onIntent(QuizIntent.OnNextQuestion) }
             )
         }
+    }
+}
+
+@Composable
+private fun QuizResultsSection(
+    correctAnswersCount: Int,
+    totalQuestions: Int,
+    onRestart: () -> Unit,
+    colorScheme: androidx.compose.material3.ColorScheme
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(Dimensions.ScreenPadding),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = stringResource(Res.string.quiz_results_title),
+            style = MaterialTheme.typography.headlineMedium,
+            color = colorScheme.primary
+        )
+
+        Spacer(Modifier.height(Dimensions.SpacingMedium))
+
+        Text(
+            text = stringResource(
+                Res.string.quiz_results_score,
+                correctAnswersCount,
+                totalQuestions
+            ),
+            style = MaterialTheme.typography.titleLarge,
+            color = colorScheme.onSurface
+        )
+
+        Spacer(Modifier.height(Dimensions.SpacingLarge))
+
+        PrimaryButton(
+            text = stringResource(Res.string.quiz_restart),
+            onClick = onRestart,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }

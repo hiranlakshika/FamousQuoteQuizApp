@@ -5,4 +5,5 @@ sealed interface QuizIntent {
     data object OnSubmitAnswer : QuizIntent
     data object OnNextQuestion : QuizIntent
     data object OnDismissResult : QuizIntent
+    data object OnRestartQuiz : QuizIntent
 }

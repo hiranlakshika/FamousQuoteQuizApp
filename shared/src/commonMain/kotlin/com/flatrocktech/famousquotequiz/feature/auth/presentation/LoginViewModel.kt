@@ -2,6 +2,8 @@ package com.flatrocktech.famousquotequiz.feature.auth.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.flatrocktech.famousquotequiz.core.domain.Result
+import com.flatrocktech.famousquotequiz.feature.auth.domain.usecase.LoginUseCase
 import famousquotequiz.shared.generated.resources.Res
 import famousquotequiz.shared.generated.resources.error_invalid_email
 import famousquotequiz.shared.generated.resources.error_password_required
@@ -10,7 +12,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    private val loginUseCase: LoginUseCase
+) : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
     val state = _state.asStateFlow()
 
@@ -32,7 +36,7 @@ class LoginViewModel : ViewModel() {
 
     private fun validateAndLogin() {
         val currentState = _state.value
-        var emailError = if (currentState.email.isBlank() || !currentState.email.contains("@")) {
+        val emailError = if (currentState.email.isBlank() || !currentState.email.contains("@")) {
             Res.string.error_invalid_email
         } else null
 
@@ -50,9 +54,21 @@ class LoginViewModel : ViewModel() {
         if (emailError == null && passwordError == null) {
             viewModelScope.launch {
                 _state.update { it.copy(isLoading = true) }
-                // Simulate network call or perform actual login
-                // For now, we just set success
-                _state.update { it.copy(isLoading = false, isLoginSuccess = true) }
+
+                val result = loginUseCase(currentState.email, currentState.password)
+
+                _state.update {
+                    when (result) {
+                        is Result.Success -> {
+                            it.copy(isLoading = false, isLoginSuccess = true)
+                        }
+
+                        is Result.Error -> {
+                            // TODO: Handle login error (e.g. show toast or update state with error message)
+                            it.copy(isLoading = false, isLoginSuccess = false)
+                        }
+                    }
+                }
             }
         }
     }

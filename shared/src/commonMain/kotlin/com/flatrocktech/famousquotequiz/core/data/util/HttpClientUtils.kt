@@ -1,7 +1,7 @@
 package com.flatrocktech.famousquotequiz.core.data.util
 
-import com.flatrocktech.famousquotequiz.core.domain.error.DataError
 import com.flatrocktech.famousquotequiz.core.domain.Result
+import com.flatrocktech.famousquotequiz.core.domain.error.DataError
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -39,6 +39,7 @@ suspend inline fun <reified T> responseToResult(
         }
     }
 
+    401 -> Result.Error(DataError.NetworkError.UNAUTHORIZED)
     408 -> Result.Error(DataError.NetworkError.REQUEST_FAILED)
     429 -> Result.Error(DataError.NetworkError.REQUEST_FAILED)
     in 500..599 -> Result.Error(DataError.NetworkError.SERVER_ERROR)

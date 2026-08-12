@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Cancel
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -29,15 +29,12 @@ import com.flatrocktech.famousquotequiz.core.presentation.components.PrimaryButt
 import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 import famousquotequiz.shared.generated.resources.Res
 import famousquotequiz.shared.generated.resources.quiz_correct
-import famousquotequiz.shared.generated.resources.quiz_correct_was
 import famousquotequiz.shared.generated.resources.quiz_incorrect
-import famousquotequiz.shared.generated.resources.quiz_next
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ResultDialog(
     isCorrect: Boolean,
-    explanation: String,
     correctAnswer: String,
     onNextQuestion: () -> Unit,
     modifier: Modifier = Modifier
@@ -83,45 +80,18 @@ fun ResultDialog(
                     )
                 }
 
-                // Result title
+                // Result message
                 Text(
-                    text = if (isCorrect) stringResource(Res.string.quiz_correct)
-                           else stringResource(Res.string.quiz_incorrect),
+                    text = if (isCorrect) stringResource(Res.string.quiz_correct, correctAnswer)
+                    else stringResource(Res.string.quiz_incorrect, correctAnswer),
                     style = MaterialTheme.typography.titleSmall,
                     color = colorScheme.primary,
                     textAlign = TextAlign.Center
                 )
 
-                // Explanation / correct answer
-                if (isCorrect) {
-                    Text(
-                        text = explanation,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center
-                    )
-                } else {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(Dimensions.SpacingTiny)
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.quiz_correct_was),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = colorScheme.onSurfaceVariant,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            text = correctAnswer,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = Color(0xFF2E7D32),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-
+                // OK button as per requirement "Once the OK button is clicked"
                 PrimaryButton(
-                    text = stringResource(Res.string.quiz_next),
+                    text = "OK",
                     onClick = onNextQuestion
                 )
             }

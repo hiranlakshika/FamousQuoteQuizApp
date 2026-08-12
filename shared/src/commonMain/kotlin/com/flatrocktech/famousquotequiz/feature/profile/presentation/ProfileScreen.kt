@@ -20,6 +20,7 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +49,12 @@ fun ProfileScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val colorScheme = MaterialTheme.colorScheme
+
+    LaunchedEffect(state.isLogoutSuccess) {
+        if (state.isLogoutSuccess) {
+            onLogout()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -97,7 +104,7 @@ fun ProfileScreen(
 
             ProfileMenuCard(colorScheme = colorScheme)
 
-            LogoutButton(onLogout = onLogout)
+            LogoutButton(onLogout = { viewModel.onIntent(ProfileIntent.OnLogoutClicked) })
 
             Spacer(Modifier.height(Dimensions.SpacingSmall))
         }

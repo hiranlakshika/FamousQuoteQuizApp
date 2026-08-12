@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import com.flatrocktech.famousquotequiz.core.theme.Dimensions
+import com.flatrocktech.famousquotequiz.feature.settings.domain.model.QuizMode
 import famousquotequiz.shared.generated.resources.Res
 import famousquotequiz.shared.generated.resources.settings_quiz_mode_binary
 import famousquotequiz.shared.generated.resources.settings_quiz_mode_info
@@ -35,8 +36,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun QuizPreferencesCard(
-    isMultipleChoiceMode: Boolean,
-    onModeToggled: (Boolean) -> Unit,
+    quizMode: QuizMode,
+    onModeChanged: (QuizMode) -> Unit,
     colorScheme: ColorScheme,
     modifier: Modifier = Modifier
 ) {
@@ -79,7 +80,7 @@ fun QuizPreferencesCard(
                     )
                     Spacer(Modifier.height(Dimensions.SpacingTiny))
                     Text(
-                        text = if (isMultipleChoiceMode)
+                        text = if (quizMode == QuizMode.MULTIPLE_CHOICE)
                             stringResource(Res.string.settings_quiz_mode_multiple)
                         else
                             stringResource(Res.string.settings_quiz_mode_binary),
@@ -88,8 +89,10 @@ fun QuizPreferencesCard(
                     )
                 }
                 Switch(
-                    checked = isMultipleChoiceMode,
-                    onCheckedChange = onModeToggled,
+                    checked = quizMode == QuizMode.MULTIPLE_CHOICE,
+                    onCheckedChange = { isMultiple ->
+                        onModeChanged(if (isMultiple) QuizMode.MULTIPLE_CHOICE else QuizMode.BINARY)
+                    },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = colorScheme.surface,
                         checkedTrackColor = colorScheme.secondary,

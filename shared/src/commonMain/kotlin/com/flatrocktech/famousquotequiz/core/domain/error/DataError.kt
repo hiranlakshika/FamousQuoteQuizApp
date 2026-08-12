@@ -11,6 +11,7 @@ sealed interface DataError : Error {
         SERVER_ERROR,
         SERIALIZATION,
         REQUEST_FAILED,
+        UNAUTHORIZED,
         UNKNOWN
     }
 }
