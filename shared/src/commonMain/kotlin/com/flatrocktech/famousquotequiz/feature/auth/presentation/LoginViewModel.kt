@@ -3,6 +3,8 @@ package com.flatrocktech.famousquotequiz.feature.auth.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flatrocktech.famousquotequiz.core.domain.Result
+import com.flatrocktech.famousquotequiz.core.presentation.util.SnackbarController
+import com.flatrocktech.famousquotequiz.core.presentation.util.SnackbarEvent
 import com.flatrocktech.famousquotequiz.feature.auth.domain.usecase.LoginUseCase
 import famousquotequiz.shared.generated.resources.Res
 import famousquotequiz.shared.generated.resources.error_invalid_email
@@ -64,7 +66,13 @@ class LoginViewModel(
                         }
 
                         is Result.Error -> {
-                            // TODO: Handle login error (e.g. show toast or update state with error message)
+                            viewModelScope.launch {
+                                SnackbarController.sendEvent(
+                                    SnackbarEvent(
+                                        message = "Login failed. Please check your credentials."
+                                    )
+                                )
+                            }
                             it.copy(isLoading = false, isLoginSuccess = false)
                         }
                     }
