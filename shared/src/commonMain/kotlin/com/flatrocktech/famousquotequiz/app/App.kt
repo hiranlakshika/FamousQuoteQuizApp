@@ -24,6 +24,12 @@ import com.flatrocktech.famousquotequiz.feature.auth.presentation.LoginScreen
 import com.flatrocktech.famousquotequiz.feature.profile.presentation.ProfileScreen
 import com.flatrocktech.famousquotequiz.feature.quiz.presentation.QuizScreen
 import com.flatrocktech.famousquotequiz.feature.settings.presentation.SettingsScreen
+import famousquotequiz.shared.generated.resources.Res
+import famousquotequiz.shared.generated.resources.tab_profile
+import famousquotequiz.shared.generated.resources.tab_quiz
+import famousquotequiz.shared.generated.resources.tab_settings
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun App() {
@@ -34,19 +40,19 @@ fun App() {
 
         val tabItems = listOf(
             TabItem(
-                label = "Quiz",
+                label = Res.string.tab_quiz,
                 icon = Icons.Default.Quiz,
                 route = Route.Quiz,
             ),
             TabItem(
-                label = "Profile",
-                icon = Icons.Default.Person,
-                route = Route.Profile
-            ),
-            TabItem(
-                label = "Settings",
+                label = Res.string.tab_settings,
                 icon = Icons.Default.Settings,
                 route = Route.Settings
+            ),
+            TabItem(
+                label = Res.string.tab_profile,
+                icon = Icons.Default.Person,
+                route = Route.Profile
             )
         )
 
@@ -69,8 +75,8 @@ fun App() {
                                     restoreState = true
                                 }
                             },
-                            label = { Text(item.label) },
-                            icon = { Icon(item.icon, contentDescription = item.label) }
+                            label = { Text(stringResource(item.label)) },
+                            icon = { Icon(item.icon, contentDescription = stringResource(item.label)) }
                         )
                     }
                 }
@@ -111,7 +117,7 @@ fun App() {
 }
 
 private data class TabItem(
-    val label: String,
+    val label: StringResource,
     val icon: ImageVector,
     val route: Route
 )

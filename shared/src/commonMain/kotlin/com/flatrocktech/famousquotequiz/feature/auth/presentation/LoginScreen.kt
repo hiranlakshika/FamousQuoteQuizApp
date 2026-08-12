@@ -22,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,10 +29,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
-import com.flatrocktech.famousquotequiz.core.theme.Dimensions
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.flatrocktech.famousquotequiz.core.presentation.components.PrimaryButton
+import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 import com.flatrocktech.famousquotequiz.feature.auth.presentation.components.BrandingHeader
 import com.flatrocktech.famousquotequiz.feature.auth.presentation.components.EmailTextField
 import com.flatrocktech.famousquotequiz.feature.auth.presentation.components.PasswordTextField
@@ -49,7 +47,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = koinViewModel(),
     onLoginSuccess: () -> Unit
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val colorScheme = MaterialTheme.colorScheme
 
     LaunchedEffect(state.isLoginSuccess) {
@@ -76,7 +74,10 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = Dimensions.ScreenPadding, vertical = Dimensions.SpacingExtraLarge),
+                .padding(
+                    horizontal = Dimensions.ScreenPadding,
+                    vertical = Dimensions.SpacingExtraLarge
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
