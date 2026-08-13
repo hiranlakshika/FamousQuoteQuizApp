@@ -77,6 +77,9 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.compose.ui.test)
+            implementation(libs.assertk)
+            implementation(libs.kotlinxCoroutinesTest)
+            implementation(libs.ktor.client.mock)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

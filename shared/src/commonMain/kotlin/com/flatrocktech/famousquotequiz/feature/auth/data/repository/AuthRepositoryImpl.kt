@@ -1,7 +1,6 @@
 package com.flatrocktech.famousquotequiz.feature.auth.data.repository
 
 import com.flatrocktech.famousquotequiz.core.data.util.safeCall
-import com.flatrocktech.famousquotequiz.core.domain.EmptyResult
 import com.flatrocktech.famousquotequiz.core.domain.Result
 import com.flatrocktech.famousquotequiz.core.domain.SessionStorage
 import com.flatrocktech.famousquotequiz.core.domain.error.DataError
@@ -36,7 +35,7 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun logout(): EmptyResult<DataError.NetworkError> {
+    override suspend fun logout(): Result<Unit, DataError.NetworkError> {
         sessionStorage.clearSession()
         return Result.Success(Unit)
     }
