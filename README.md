@@ -1,35 +1,80 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+# Famous Quote Quiz
 
-* [/iosApp](./iosApp/iosApp) contains an iOS application. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+Famous Quote Quiz is a Kotlin Multiplatform (KMP) application that challenges users to identify the
+authors of famous quotes. The project demonstrates a modern approach to cross-platform development
+using **Compose Multiplatform** for a unified UI across Android, iOS, and Desktop.
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./shared/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./shared/src/jvmMain/kotlin)
-    folder is the appropriate location.
+## Features
+
+- **Authentication**: Secure login system (Email/Password) to track progress.
+- **Quiz Engine**: Interactive quiz with multiple-choice questions about famous quotes.
+- **User Profile**: View and manage user information.
+- **Settings**: Customizable app preferences.
+- **Adaptive UI**: Responsive design that works on mobile and desktop screens using Material 3
+  Adaptive Navigation Suite.
+
+## Tech Stack
+
+- **Kotlin Multiplatform**: Shared business logic across platforms.
+- **Compose Multiplatform**: Shared UI code for Android, iOS, and Desktop (JVM).
+- **Koin**: Dependency injection for all modules.
+- **Ktor**: Type-safe HTTP client for networking.
+- **Kotlinx Serialization**: JSON serialization/deserialization.
+- **Multiplatform Settings**: Key-value storage for local persistence.
+- **Kermit**: Logging library for KMP.
+- **AndroidX Lifecycle**: Shared ViewModels across all platforms.
+- **Navigation Compose**: Type-safe navigation for shared UI.
+
+## Supported Platforms
+
+- **Android**: Android 8.0 (API 26) and above.
+- **iOS**: iOS 15.0 and above.
+- **Desktop**: JVM 11 and above.
+
+## Architecture
+
+The project follows **Clean Architecture** principles, ensuring separation of concerns and
+testability. Each feature module is structured into:
+
+1. **Data Layer**: Repositories, DTOs, Mappers, and API clients.
+2. **Domain Layer**: Business models, Repository interfaces, and Use Cases.
+3. **Presentation Layer**: ViewModels and Composable screens.
+
+## Project Structure
+
+* [`/shared`](./shared): The core module containing shared business logic and Compose UI.
+    * `commonMain`: Shared code for all platforms.
+    * `androidMain`, `iosMain`, `jvmMain`: Platform-specific implementations.
+* [`/androidApp`](./androidApp): Android-specific entry point and configuration.
+* [`/iosApp`](./iosApp): iOS-specific entry point (SwiftUI wrapper).
+* [`/desktopApp`](./desktopApp): Desktop (JVM) entry point.
+
+## Getting Started
+
+### Prerequisites
+
+- Android Studio (latest stable version)
+- Xcode (for iOS development)
+- JDK 17 or higher
 
 ### Running the apps
 
-Use the run configurations provided by the run widget in your IDE's toolbar. You can also use these commands and options:
+- **Android**: Run the `:androidApp` configuration in Android Studio or use:
+  ```bash
+  ./gradlew :androidApp:installDebug
+  ```
+- **Desktop**: Run the `:desktopApp` configuration or use:
+  ```bash
+  ./gradlew :desktopApp:run
+  ```
+- **iOS**: Open the `iosApp` folder in Xcode or run from Android Studio if the KMP plugin is
+  installed.
 
-- Android app: `./gradlew :androidApp:assembleDebug`
-- Desktop app:
-  - Hot reload: `./gradlew :desktopApp:hotRun --auto`
-  - Standard run: `./gradlew :desktopApp:run`
-- iOS app: open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+### API Backend
 
-### Running tests
+The app expects a backend running at `http://localhost:8080/api/`. You can update this in
+`NetworkingConstants.kt`.
 
-Use the run button in your IDE's editor gutter, or run tests using Gradle tasks:
+## License
 
-- Android tests: `./gradlew :shared:testAndroidHostTest`
-- Desktop tests: `./gradlew :shared:jvmTest`
-- iOS tests: `./gradlew :shared:iosSimulatorArm64Test`
-
----
-
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+This project is licensed under the MIT License.
