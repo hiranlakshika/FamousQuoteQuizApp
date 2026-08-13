@@ -13,6 +13,16 @@ using **Compose Multiplatform** for a unified UI across Android, iOS, and Deskto
 - **Adaptive UI**: Responsive design that works on mobile and desktop screens using Material 3
   Adaptive Navigation Suite.
 
+## Screenshots
+
+|              Login              |             Home              |             Quiz              |               Results               |
+|:-------------------------------:|:-----------------------------:|:-----------------------------:|:-----------------------------------:|
+| ![Login](screenshots/login.png) | ![Home](screenshots/home.png) | ![Quiz](screenshots/quiz.png) | ![Results](screenshots/results.png) |
+
+|               Settings                |               Profile               |
+|:-------------------------------------:|:-----------------------------------:|
+| ![Settings](screenshots/settings.png) | ![Profile](screenshots/profile.png) |
+
 ## Tech Stack
 
 - **Kotlin Multiplatform**: Shared business logic across platforms.
@@ -74,6 +84,13 @@ testability. Each feature module is structured into:
 
 The app expects a backend running at `http://localhost:8080/api/`. You can update this in
 `NetworkingConstants.kt`.
+
+### Demo Credentials
+
+For testing purposes, you can use the following demo account:
+
+- **Email**: `demo@quiz.com`
+- **Password**: `password123`
 
 ## License
 
