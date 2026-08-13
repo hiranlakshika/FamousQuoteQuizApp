@@ -1,8 +1,12 @@
 package com.flatrocktech.famousquotequiz.core.data
 
+import com.flatrocktech.famousquotequiz.core.domain.util.AppLogger
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -15,7 +19,11 @@ import kotlinx.serialization.json.Json
 
 object HttpClientFactory {
 
-    fun create(engine: HttpClientEngine): HttpClient {
+    fun create(
+        engine: HttpClientEngine,
+        tokenStorage: TokenStorage,
+        appLogger: AppLogger
+    ): HttpClient {
         return HttpClient(engine) {
             install(ContentNegotiation) {
                 json(
@@ -31,10 +39,19 @@ object HttpClientFactory {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        println(message)
+                        appLogger.debug("HTTP") { message }
                     }
                 }
                 level = LogLevel.ALL
+            }
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        tokenStorage.getToken()?.let {
+                            BearerTokens(it, "")
+                        }
+                    }
+                }
             }
             defaultRequest {
                 url(NetworkingConstants.BASE_URL)

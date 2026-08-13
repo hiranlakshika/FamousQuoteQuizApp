@@ -1,5 +1,6 @@
 package com.flatrocktech.famousquotequiz.feature.auth.data.repository
 
+import com.flatrocktech.famousquotequiz.core.data.TokenStorage
 import com.flatrocktech.famousquotequiz.core.data.util.safeCall
 import com.flatrocktech.famousquotequiz.core.domain.EmptyResult
 import com.flatrocktech.famousquotequiz.core.domain.Result
@@ -15,7 +16,8 @@ import io.ktor.client.request.setBody
 import kotlinx.coroutines.delay
 
 class AuthRepositoryImpl(
-    private val httpClient: HttpClient
+    private val httpClient: HttpClient,
+    private val tokenStorage: TokenStorage
 ) : AuthRepository {
 
     override suspend fun login(
@@ -26,15 +28,14 @@ class AuthRepositoryImpl(
             httpClient.post("auth/login") {
                 setBody(mapOf("email" to email, "password" to password))
             }
-        }.map { it.toDomain() }
+        }.map { dto ->
+            tokenStorage.saveToken(dto.token)
+            dto.toDomain()
+        }
     }
 
     override suspend fun logout(): EmptyResult<DataError.NetworkError> {
-        // TODO: Implement actual backend logout using httpClient when ready
-        // return safeCall<Unit> {
-        //     httpClient.post("auth/logout")
-        // }
-
+        tokenStorage.clearToken()
         delay(1000) // Simulate network delay
         return Result.Success(Unit)
     }
