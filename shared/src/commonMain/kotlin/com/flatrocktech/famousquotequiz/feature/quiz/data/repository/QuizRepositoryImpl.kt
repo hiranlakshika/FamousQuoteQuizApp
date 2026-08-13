@@ -2,8 +2,13 @@ package com.flatrocktech.famousquotequiz.feature.quiz.data.repository
 
 import com.flatrocktech.famousquotequiz.feature.quiz.domain.model.Quote
 import com.flatrocktech.famousquotequiz.feature.quiz.domain.repository.QuizRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 class QuizRepositoryImpl : QuizRepository {
+    private val _restartFlow = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+
     override fun getQuotes(): List<Quote> {
         // TODO: Fetch quotes from backend when ready
         return listOf(
@@ -30,6 +35,10 @@ class QuizRepositoryImpl : QuizRepository {
     }
 
     override fun restartQuiz() {
-        // TODO: Reset quiz session state when ready
+        _restartFlow.tryEmit(Unit)
+    }
+
+    override fun onRestartQuiz(): Flow<Unit> {
+        return _restartFlow.asSharedFlow()
     }
 }

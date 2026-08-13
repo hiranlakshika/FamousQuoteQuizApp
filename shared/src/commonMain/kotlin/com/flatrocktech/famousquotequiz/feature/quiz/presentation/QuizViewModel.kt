@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.flatrocktech.famousquotequiz.feature.quiz.domain.model.Quote
 import com.flatrocktech.famousquotequiz.feature.quiz.domain.repository.QuizRepository
 import com.flatrocktech.famousquotequiz.feature.settings.domain.model.QuizMode
-import com.flatrocktech.famousquotequiz.feature.settings.domain.usecase.GetSettingsUseCase
+import com.flatrocktech.famousquotequiz.feature.settings.domain.usecase.GetQuizModeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class QuizViewModel(
     private val quizRepository: QuizRepository,
-    private val getSettingsUseCase: GetSettingsUseCase
+    private val getQuizModeUseCase: GetQuizModeUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(QuizState())
     val state = _state.asStateFlow()
@@ -24,16 +24,17 @@ class QuizViewModel(
     private var quizMode = QuizMode.BINARY
 
     init {
-        getSettingsUseCase()
-            .onEach { settings ->
-                if (quizMode != settings.quizMode) {
-                    quizMode = settings.quizMode
-                    restartQuiz()
-                }
+        quizRepository.onRestartQuiz()
+            .onEach {
+                restartQuiz()
             }
             .launchIn(viewModelScope)
 
-        loadQuotes()
+        viewModelScope.launch {
+            val settings = getQuizModeUseCase()
+            quizMode = settings.quizMode
+            loadQuotes()
+        }
     }
 
     private fun loadQuotes() {
@@ -123,7 +124,11 @@ class QuizViewModel(
     }
 
     private fun restartQuiz() {
-        _state.update { QuizState() }
-        loadQuotes()
+        viewModelScope.launch {
+            val settings = getQuizModeUseCase()
+            quizMode = settings.quizMode
+            _state.update { QuizState() }
+            loadQuotes()
+        }
     }
 }

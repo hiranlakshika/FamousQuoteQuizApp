@@ -1,21 +1,30 @@
 package com.flatrocktech.famousquotequiz.feature.settings.data.repository
 
+import com.flatrocktech.famousquotequiz.core.domain.SessionStorage
+import com.flatrocktech.famousquotequiz.core.domain.util.AppLogger
+import com.flatrocktech.famousquotequiz.feature.settings.domain.model.QuizMode
 import com.flatrocktech.famousquotequiz.feature.settings.domain.model.Settings
 import com.flatrocktech.famousquotequiz.feature.settings.domain.repository.SettingsRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
-class SettingsRepositoryImpl : SettingsRepository {
-    private val _settings = MutableStateFlow(Settings())
+class SettingsRepositoryImpl(
+    private val sessionStorage: SessionStorage,
+    private val appLogger: AppLogger
+) : SettingsRepository {
 
-    override fun getSettings(): Flow<Settings> {
-        return _settings.asStateFlow()
+    override suspend fun getSettings(): Settings {
+        val mode = try {
+            QuizMode.valueOf(sessionStorage.getQuizMode() ?: QuizMode.BINARY.name)
+        } catch (e: Exception) {
+            appLogger.error(
+                "SettingsRepository",
+                e
+            ) { "Failed to parse quiz mode from session storage" }
+            QuizMode.BINARY
+        }
+        return Settings(quizMode = mode)
     }
 
     override suspend fun updateSettings(settings: Settings) {
-        // TODO: Persist settings to local storage (e.g. DataStore or KMP-Settings) when ready
-        _settings.update { settings }
+        sessionStorage.saveQuizMode(settings.quizMode.name)
     }
 }

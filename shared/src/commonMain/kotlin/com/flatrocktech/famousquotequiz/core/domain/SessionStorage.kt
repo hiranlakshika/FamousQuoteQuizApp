@@ -6,5 +6,7 @@ interface SessionStorage {
     fun saveUser(email: String, displayName: String)
     fun getEmail(): String?
     fun getDisplayName(): String?
+    fun saveQuizMode(mode: String)
+    fun getQuizMode(): String?
     fun clearSession()
 }

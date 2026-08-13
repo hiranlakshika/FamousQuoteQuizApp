@@ -6,6 +6,7 @@ import com.flatrocktech.famousquotequiz.core.domain.Result
 import com.flatrocktech.famousquotequiz.core.domain.SessionStorage
 import com.flatrocktech.famousquotequiz.core.domain.error.DataError
 import com.flatrocktech.famousquotequiz.core.domain.map
+import com.flatrocktech.famousquotequiz.core.domain.util.AppLogger
 import com.flatrocktech.famousquotequiz.feature.auth.data.mapper.toDomain
 import com.flatrocktech.famousquotequiz.feature.auth.data.remote.dto.LoginResponseDto
 import com.flatrocktech.famousquotequiz.feature.auth.domain.model.AuthInfo
@@ -17,14 +18,15 @@ import kotlinx.coroutines.delay
 
 class AuthRepositoryImpl(
     private val httpClient: HttpClient,
-    private val sessionStorage: SessionStorage
+    private val sessionStorage: SessionStorage,
+    private val appLogger: AppLogger
 ) : AuthRepository {
 
     override suspend fun login(
         email: String,
         password: String
     ): Result<AuthInfo, DataError.NetworkError> {
-        return safeCall<LoginResponseDto> {
+        return safeCall<LoginResponseDto>(appLogger) {
             httpClient.post("auth/login") {
                 setBody(mapOf("email" to email, "password" to password))
             }

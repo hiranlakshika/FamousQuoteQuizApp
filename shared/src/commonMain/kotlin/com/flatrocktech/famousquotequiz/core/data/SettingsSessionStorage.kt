@@ -9,6 +9,7 @@ class SettingsSessionStorage(private val settings: Settings = Settings()) : Sess
         private const val KEY_TOKEN = "auth_token"
         private const val KEY_EMAIL = "user_email"
         private const val KEY_DISPLAY_NAME = "user_display_name"
+        private const val KEY_QUIZ_MODE = "quiz_mode"
     }
 
     override fun saveToken(token: String) {
@@ -30,6 +31,14 @@ class SettingsSessionStorage(private val settings: Settings = Settings()) : Sess
 
     override fun getDisplayName(): String? {
         return settings.getStringOrNull(KEY_DISPLAY_NAME)
+    }
+
+    override fun saveQuizMode(mode: String) {
+        settings[KEY_QUIZ_MODE] = mode
+    }
+
+    override fun getQuizMode(): String? {
+        return settings.getStringOrNull(KEY_QUIZ_MODE)
     }
 
     override fun clearSession() {
