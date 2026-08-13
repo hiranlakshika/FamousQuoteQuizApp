@@ -30,6 +30,7 @@ class AuthRepositoryImpl(
             }
         }.map { dto ->
             tokenStorage.saveToken(dto.token)
+            tokenStorage.saveUser(dto.user.email, dto.user.displayName)
             dto.toDomain()
         }
     }
