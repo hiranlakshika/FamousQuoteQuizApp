@@ -15,13 +15,13 @@ using **Compose Multiplatform** for a unified UI across Android, iOS, and Deskto
 
 ## Screenshots
 
-|              Login              |             Home              |             Quiz              |               Results               |
-|:-------------------------------:|:-----------------------------:|:-----------------------------:|:-----------------------------------:|
-| ![Login](screenshots/login.png) | ![Home](screenshots/home.png) | ![Quiz](screenshots/quiz.png) | ![Results](screenshots/results.png) |
+|              Login              |             Home              |             Quiz              |
+|:-------------------------------:|:-----------------------------:|:-----------------------------:|
+| ![Login](screenshots/login.png) | ![Home](screenshots/home.png) | ![Quiz](screenshots/quiz.png) |
 
-|               Settings                |               Profile               |
-|:-------------------------------------:|:-----------------------------------:|
-| ![Settings](screenshots/settings.png) | ![Profile](screenshots/profile.png) |
+|               Results               |               Settings                |               Profile               |
+|:-----------------------------------:|:-------------------------------------:|:-----------------------------------:|
+| ![Results](screenshots/results.png) | ![Settings](screenshots/settings.png) | ![Profile](screenshots/profile.png) |
 
 ## Tech Stack
 
