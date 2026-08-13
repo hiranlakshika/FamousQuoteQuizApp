@@ -42,8 +42,6 @@ class SettingsSessionStorage(private val settings: Settings = Settings()) : Sess
     }
 
     override fun clearSession() {
-        settings.remove(KEY_TOKEN)
-        settings.remove(KEY_EMAIL)
-        settings.remove(KEY_DISPLAY_NAME)
+        settings.clear()
     }
 }

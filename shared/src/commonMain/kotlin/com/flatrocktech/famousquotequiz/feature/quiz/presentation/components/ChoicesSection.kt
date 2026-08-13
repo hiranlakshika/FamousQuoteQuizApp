@@ -20,6 +20,7 @@ fun ChoicesSection(
     selectedIndex: Int?,
     correctIndex: Int?,
     isSubmitted: Boolean,
+    isMultipleChoice: Boolean,
     onChoiceSelected: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -30,12 +31,14 @@ fun ChoicesSection(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(Dimensions.SpacingMedium)
     ) {
-        Text(
-            text = stringResource(Res.string.quiz_who_said),
-            style = MaterialTheme.typography.labelLarge,
-            color = colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
-        )
+        if (isMultipleChoice) {
+            Text(
+                text = stringResource(Res.string.quiz_who_said),
+                style = MaterialTheme.typography.labelLarge,
+                color = colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+        }
 
         choices.forEachIndexed { index, choice ->
             val state = when {

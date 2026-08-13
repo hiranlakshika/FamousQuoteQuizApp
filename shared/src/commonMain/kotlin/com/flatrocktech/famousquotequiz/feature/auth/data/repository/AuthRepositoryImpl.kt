@@ -14,7 +14,6 @@ import com.flatrocktech.famousquotequiz.feature.auth.domain.repository.AuthRepos
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import kotlinx.coroutines.delay
 
 class AuthRepositoryImpl(
     private val httpClient: HttpClient,
@@ -39,7 +38,6 @@ class AuthRepositoryImpl(
 
     override suspend fun logout(): EmptyResult<DataError.NetworkError> {
         sessionStorage.clearSession()
-        delay(1000) // Simulate network delay
         return Result.Success(Unit)
     }
 }

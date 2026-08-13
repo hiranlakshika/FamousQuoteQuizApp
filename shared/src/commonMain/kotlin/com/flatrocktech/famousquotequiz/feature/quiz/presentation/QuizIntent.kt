@@ -1,6 +1,7 @@
 package com.flatrocktech.famousquotequiz.feature.quiz.presentation
 
 sealed interface QuizIntent {
+    data object OnStartQuiz : QuizIntent
     data class OnChoiceSelected(val index: Int) : QuizIntent
     data object OnSubmitAnswer : QuizIntent
     data object OnNextQuestion : QuizIntent

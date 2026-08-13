@@ -52,7 +52,6 @@ fun QuizHeader(
             )
         }
 
-        // Right: Question counter + progress bar
         Column(
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.spacedBy(Dimensions.SpacingSmall)

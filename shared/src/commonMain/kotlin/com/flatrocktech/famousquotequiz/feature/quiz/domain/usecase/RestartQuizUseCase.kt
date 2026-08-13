@@ -1,11 +1,11 @@
 package com.flatrocktech.famousquotequiz.feature.quiz.domain.usecase
 
-import com.flatrocktech.famousquotequiz.feature.quiz.domain.repository.QuizRepository
+import com.flatrocktech.famousquotequiz.feature.quiz.domain.QuizEventBus
 
 class RestartQuizUseCase(
-    private val repository: QuizRepository
+    private val quizEventBus: QuizEventBus
 ) {
     operator fun invoke() {
-        repository.restartQuiz()
+        quizEventBus.restartQuiz()
     }
 }

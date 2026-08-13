@@ -1,20 +1,14 @@
 package com.flatrocktech.famousquotequiz.feature.quiz.presentation.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.History
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +22,6 @@ import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 @Composable
 fun QuoteCard(
     quoteText: String,
-    category: String,
     modifier: Modifier = Modifier
 ) {
     val colorScheme = MaterialTheme.colorScheme
@@ -76,39 +69,7 @@ fun QuoteCard(
                     textAlign = TextAlign.Center,
                     lineHeight = Dimensions.QuoteLineHeight
                 )
-
-                CategoryChip(category = category)
             }
         }
-    }
-}
-
-@Composable
-private fun CategoryChip(category: String) {
-    val colorScheme = MaterialTheme.colorScheme
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(Dimensions.SpacingExtraSmall),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .background(
-                color = colorScheme.surfaceVariant,
-                shape = RoundedCornerShape(Dimensions.RadiusFull)
-            )
-            .padding(
-                horizontal = Dimensions.SpacingMediumLow,
-                vertical = Dimensions.SpacingExtraSmall
-            )
-    ) {
-        Icon(
-            imageVector = Icons.Default.History,
-            contentDescription = null,
-            tint = colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(Dimensions.CategoryChipIconSize)
-        )
-        Text(
-            text = category,
-            style = MaterialTheme.typography.labelMedium,
-            color = colorScheme.onSurfaceVariant
-        )
     }
 }

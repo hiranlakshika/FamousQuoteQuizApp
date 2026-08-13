@@ -2,9 +2,10 @@ package com.flatrocktech.famousquotequiz.feature.quiz.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flatrocktech.famousquotequiz.feature.quiz.domain.model.Quote
+import com.flatrocktech.famousquotequiz.core.domain.Result
+import com.flatrocktech.famousquotequiz.feature.quiz.domain.QuizEventBus
+import com.flatrocktech.famousquotequiz.feature.quiz.domain.model.Question
 import com.flatrocktech.famousquotequiz.feature.quiz.domain.repository.QuizRepository
-import com.flatrocktech.famousquotequiz.feature.settings.domain.model.QuizMode
 import com.flatrocktech.famousquotequiz.feature.settings.domain.usecase.GetQuizModeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,16 +16,16 @@ import kotlinx.coroutines.launch
 
 class QuizViewModel(
     private val quizRepository: QuizRepository,
-    private val getQuizModeUseCase: GetQuizModeUseCase
+    private val getQuizModeUseCase: GetQuizModeUseCase,
+    private val quizEventBus: QuizEventBus
 ) : ViewModel() {
     private val _state = MutableStateFlow(QuizState())
     val state = _state.asStateFlow()
 
-    private var allQuotes = emptyList<Quote>()
-    private var quizMode = QuizMode.BINARY
+    private var nextQuestion: Question? = null
 
     init {
-        quizRepository.onRestartQuiz()
+        quizEventBus.events
             .onEach {
                 restartQuiz()
             }
@@ -32,85 +33,106 @@ class QuizViewModel(
 
         viewModelScope.launch {
             val settings = getQuizModeUseCase()
-            quizMode = settings.quizMode
-            loadQuotes()
+            _state.update { it.copy(quizMode = settings.quizMode) }
         }
     }
 
-    private fun loadQuotes() {
+    private fun startNewSession() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            allQuotes = quizRepository.getQuotes().take(10)
-            _state.update { it.copy(isLoading = false, totalQuestions = allQuotes.size) }
-            showQuestion(0)
+            when (val result = quizRepository.startQuizSession(_state.value.quizMode)) {
+                is Result.Success -> {
+                    val session = result.data
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            sessionId = session.sessionId,
+                            totalQuestions = session.totalQuestions
+                        )
+                    }
+                    session.currentQuestion?.let { showQuestion(it) }
+                }
+
+                is Result.Error -> {
+                    _state.update { it.copy(isLoading = false) }
+                }
+            }
         }
     }
 
-    private fun showQuestion(index: Int) {
-        if (index >= allQuotes.size) {
-            _state.update { it.copy(isQuizFinished = true) }
-            return
-        }
-
-        val quote = allQuotes[index]
-        val currentChoices = generateChoices(quote)
-        val correctIndex = currentChoices.indexOf(quote.author)
-
+    private fun showQuestion(question: Question) {
         _state.update {
             it.copy(
-                currentQuestion = index + 1,
-                quoteText = quote.text,
-                choices = currentChoices,
-                correctChoiceIndex = correctIndex,
+                currentQuestion = question.questionNumber,
+                totalQuestions = question.totalQuestions,
+                quoteText = question.text,
+                proposedAuthor = question.proposedAuthor,
+                choices = question.options,
                 selectedChoiceIndex = null,
+                correctChoiceIndex = null,
                 isAnswerSubmitted = false,
-                isCorrect = null,
-                correctAnswerExplanation = "The quote is by ${quote.author}."
+                isCorrect = null
             )
-        }
-    }
-
-    private fun generateChoices(quote: Quote): List<String> {
-        val authors = allQuotes.map { it.author }.distinct()
-        return when (quizMode) {
-            QuizMode.BINARY -> {
-                // Yes/No logic might be different, but requirement says "picked the right answer"
-                // Usually Binary means 2 choices. Let's provide 2 authors.
-                val wrongAuthor =
-                    authors.filter { it != quote.author }.shuffled().firstOrNull() ?: "Unknown"
-                listOf(quote.author, wrongAuthor).shuffled()
-            }
-
-            QuizMode.MULTIPLE_CHOICE -> {
-                val wrongAuthors = authors.filter { it != quote.author }.shuffled().take(2)
-                (listOf(quote.author) + wrongAuthors).shuffled()
-            }
         }
     }
 
     fun onIntent(intent: QuizIntent) {
         when (intent) {
+            QuizIntent.OnStartQuiz -> {
+                startNewSession()
+            }
+
             is QuizIntent.OnChoiceSelected -> {
                 if (!_state.value.isAnswerSubmitted) {
                     _state.update { it.copy(selectedChoiceIndex = intent.index) }
                 }
             }
+
             QuizIntent.OnSubmitAnswer -> {
                 val selected = _state.value.selectedChoiceIndex ?: return
-                val correct = _state.value.correctChoiceIndex ?: return
-                val isCorrect = selected == correct
-                
-                _state.update {
-                    it.copy(
-                        isAnswerSubmitted = true,
-                        isCorrect = isCorrect,
-                        correctAnswersCount = if (isCorrect) it.correctAnswersCount + 1 else it.correctAnswersCount
-                    )
+                val sessionId = _state.value.sessionId ?: return
+                val answer = _state.value.choices[selected]
+
+                viewModelScope.launch {
+                    _state.update { it.copy(isLoading = true) }
+                    when (val result = quizRepository.submitAnswer(sessionId, answer)) {
+                        is Result.Success -> {
+                            val answerResult = result.data
+                            val correctIndex =
+                                _state.value.choices.indexOf(answerResult.correctAuthor)
+                                    .takeIf { it != -1 }
+                                    ?: if (answerResult.isCorrect) selected else (1 - selected)
+
+                            _state.update {
+                                it.copy(
+                                    isLoading = false,
+                                    isAnswerSubmitted = true,
+                                    isCorrect = answerResult.isCorrect,
+                                    correctChoiceIndex = correctIndex,
+                                    correctAnswerExplanation = answerResult.message,
+                                    correctAnswersCount = if (answerResult.isCorrect) it.correctAnswersCount + 1 else it.correctAnswersCount,
+                                    isQuizFinished = answerResult.sessionCompleted
+                                )
+                            }
+                            nextQuestion = answerResult.nextQuestion
+                        }
+
+                        is Result.Error -> {
+                            _state.update { it.copy(isLoading = false) }
+                        }
+                    }
                 }
             }
+
             QuizIntent.OnNextQuestion -> {
-                showQuestion(_state.value.currentQuestion)
+                nextQuestion?.let {
+                    showQuestion(it)
+                    nextQuestion = null
+                } ?: run {
+                    _state.update { it.copy(isQuizFinished = true) }
+                }
             }
+
             QuizIntent.OnDismissResult -> {
                 _state.update {
                     it.copy(isAnswerSubmitted = false, isCorrect = null)
@@ -126,9 +148,8 @@ class QuizViewModel(
     private fun restartQuiz() {
         viewModelScope.launch {
             val settings = getQuizModeUseCase()
-            quizMode = settings.quizMode
-            _state.update { QuizState() }
-            loadQuotes()
+            _state.update { QuizState(quizMode = settings.quizMode) }
+            startNewSession()
         }
     }
 }
