@@ -1,5 +1,6 @@
 package com.flatrocktech.famousquotequiz.core.data
 
+import com.flatrocktech.famousquotequiz.core.domain.SessionStorage
 import com.flatrocktech.famousquotequiz.core.domain.util.AppLogger
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -21,7 +22,7 @@ object HttpClientFactory {
 
     fun create(
         engine: HttpClientEngine,
-        tokenStorage: TokenStorage,
+        sessionStorage: SessionStorage,
         appLogger: AppLogger
     ): HttpClient {
         return HttpClient(engine) {
@@ -47,7 +48,7 @@ object HttpClientFactory {
             install(Auth) {
                 bearer {
                     loadTokens {
-                        tokenStorage.getToken()?.let {
+                        sessionStorage.getToken()?.let {
                             BearerTokens(it, "")
                         }
                     }
