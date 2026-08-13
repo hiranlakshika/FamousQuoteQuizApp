@@ -82,8 +82,19 @@ testability. Each feature module is structured into:
 
 ### API Backend
 
+> [!IMPORTANT]
+> The backend is not hosted yet. To use the application, you must run the backend locally first.
+
 The app expects a backend running at `http://localhost:8080/api/`. You can update this in
 `NetworkingConstants.kt`.
+
+### Testing Status
+
+The application has been verified and tested on the following platforms:
+
+- **Desktop** (JVM)
+- **Android Emulator**
+- **iOS Simulator**
 
 ### Demo Credentials
 
