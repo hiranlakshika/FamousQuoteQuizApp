@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">InsightQuotes</string>
+    <string name="login_title">Login</string>
+    <string name="email_label">Email Address</string>
+    <string name="email_placeholder">Enter your email</string>
+    <string name="password_label">Password</string>
+    <string name="password_placeholder">Enter your password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="no_account">Don\'t have an account? </string>
+    <string name="sign_up">Sign up</string>
+    <string name="branding_subtitle">Access your curated collection of wisdom.</string>
+    <string name="error_invalid_email">Please enter a valid email address.</string>
+    <string name="error_password_required">Password is required.</string>
+    <string name="content_desc_hide_password">Hide password</string>
+    <string name="content_desc_show_password">Show password</string>
+</resources>

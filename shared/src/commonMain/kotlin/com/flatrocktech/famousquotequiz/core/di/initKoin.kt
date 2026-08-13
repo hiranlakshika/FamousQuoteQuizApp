@@ -10,6 +10,14 @@ import org.koin.dsl.KoinAppDeclaration
 fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
-        modules(platformModule, coreCommonModule, authModule, settingsModule, profileModule, quizModule)
+        modules(
+            platformModule,
+            coreCommonModule,
+            coreNetworkModule,
+            authModule,
+            settingsModule,
+            profileModule,
+            quizModule
+        )
     }
 }

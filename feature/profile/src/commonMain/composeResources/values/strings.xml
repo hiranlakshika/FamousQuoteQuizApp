@@ -1,0 +1,14 @@
+<resources>
+    <string name="profile_title">Profile</string>
+    <string name="profile_badge_pro">Pro Member</string>
+    <string name="profile_badge_top">Top 5%% Thinker</string>
+    <string name="profile_stat_quizzes">Quizzes Taken</string>
+    <string name="profile_stat_score">Avg. Score</string>
+    <string name="profile_section_account">Account</string>
+    <string name="profile_menu_account_details">Account Details</string>
+    <string name="profile_menu_notifications">Notifications</string>
+    <string name="profile_menu_quiz_history">Quiz History</string>
+    <string name="profile_menu_help">Help &amp; Support</string>
+    <string name="profile_logout">Logout</string>
+    <string name="profile_avatar_cd">User profile avatar</string>
+</resources>

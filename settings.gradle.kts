@@ -34,3 +34,14 @@ plugins {
 include(":androidApp")
 include(":desktopApp")
 include(":shared")
+
+// Core modules
+include(":core:common")
+include(":core:network")
+include(":core:ui")
+
+// Feature modules
+include(":feature:auth")
+include(":feature:quiz")
+include(":feature:profile")
+include(":feature:settings")

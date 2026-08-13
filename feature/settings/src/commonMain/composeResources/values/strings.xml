@@ -1,0 +1,8 @@
+<resources>
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_quiz">Quiz Preferences</string>
+    <string name="settings_quiz_mode_label">Quiz Mode</string>
+    <string name="settings_quiz_mode_multiple">Multiple Choice</string>
+    <string name="settings_quiz_mode_binary">Binary (Yes/No)</string>
+    <string name="settings_quiz_mode_info">Changing the quiz mode will restart your current session. "Binary" mode presents simple Yes/No questions, while "Multiple Choice" offers four possible answers.</string>
+</resources>

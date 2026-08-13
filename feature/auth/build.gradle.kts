@@ -14,7 +14,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "Shared"
+            baseName = "FeatureAuth"
             isStatic = true
         }
     }
@@ -22,59 +22,43 @@ kotlin {
     jvm()
 
     android {
-       namespace = "com.flatrocktech.famousquotequiz.shared"
-       compileSdk = libs.versions.android.compileSdk.get().toInt()
-       minSdk = libs.versions.android.minSdk.get().toInt()
+        namespace = "com.flatrocktech.famousquotequiz.feature.auth"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
 
         compilerOptions {
-           jvmTarget = JvmTarget.JVM_11
-       }
-       androidResources {
-           enable = true
-       }
-       withHostTest {
-           isIncludeAndroidResources = true
-       }
-       withDeviceTestBuilder {
-           sourceSetTreeName = "test"
-       }.configure {
-           instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-       }
+            jvmTarget = JvmTarget.JVM_11
+        }
+        androidResources {
+            enable = true
+        }
+        withHostTest {
+            isIncludeAndroidResources = true
+        }
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.compose.uiTooling)
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
-        }
         commonMain.dependencies {
-            // Core modules
             implementation(project(":core:common"))
             implementation(project(":core:network"))
             implementation(project(":core:ui"))
-            // Feature modules
-            implementation(project(":feature:auth"))
-            implementation(project(":feature:quiz"))
-            implementation(project(":feature:profile"))
-            implementation(project(":feature:settings"))
-            // App-level Compose dependencies
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
             implementation(libs.compose.icons)
             implementation(libs.compose.ui)
-            implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
-            implementation(libs.compose.material3.adaptive.navigation.suite)
+            implementation(libs.compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.androidx.navigation)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
+            implementation(libs.bundles.ktor)
+        }
+        androidMain.dependencies {
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -83,12 +67,5 @@ kotlin {
             implementation(libs.kotlinxCoroutinesTest)
             implementation(libs.ktor.client.mock)
         }
-        nativeMain.dependencies {
-            implementation(libs.ktor.client.darwin)
-        }
     }
-}
-
-dependencies {
-    androidRuntimeClasspath(libs.compose.uiTooling)
 }
