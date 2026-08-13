@@ -1,6 +1,6 @@
-package com.restable.library.core.domain
+package com.flatrocktech.famousquotequiz.core.domain.error
 
-typealias RootError = com.restable.library.core.domain.error.Error
+typealias RootError = Error
 typealias EmptyResult<E> = Result<Unit, E>
 
 sealed interface Result<out D, out E : RootError> {
