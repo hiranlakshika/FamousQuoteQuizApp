@@ -37,6 +37,7 @@ object HttpClientFactory {
                 level = LogLevel.ALL
             }
             defaultRequest {
+                url(NetworkingConstants.BASE_URL)
                 contentType(ContentType.Application.Json)
             }
         }
