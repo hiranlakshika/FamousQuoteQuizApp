@@ -2,6 +2,7 @@ package com.flatrocktech.famousquotequiz.core.domain
 
 class FakeSessionStorage : SessionStorage {
     var savedToken: String? = null
+    var savedRefreshToken: String? = null
     var savedEmail: String? = null
     var savedDisplayName: String? = null
     var savedMode: String? = null
@@ -11,6 +12,12 @@ class FakeSessionStorage : SessionStorage {
     }
 
     override fun getToken(): String? = savedToken
+
+    override fun saveRefreshToken(token: String) {
+        savedRefreshToken = token
+    }
+
+    override fun getRefreshToken(): String? = savedRefreshToken
 
     override fun saveUser(email: String, displayName: String) {
         savedEmail = email
@@ -29,6 +36,7 @@ class FakeSessionStorage : SessionStorage {
 
     override fun clearSession() {
         savedToken = null
+        savedRefreshToken = null
         savedEmail = null
         savedDisplayName = null
         savedMode = null

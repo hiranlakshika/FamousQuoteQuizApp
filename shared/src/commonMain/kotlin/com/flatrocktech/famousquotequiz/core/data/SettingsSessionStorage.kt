@@ -7,6 +7,7 @@ import com.russhwolf.settings.set
 class SettingsSessionStorage(private val settings: Settings = Settings()) : SessionStorage {
     companion object {
         private const val KEY_TOKEN = "auth_token"
+        private const val KEY_REFRESH_TOKEN = "refresh_token"
         private const val KEY_EMAIL = "user_email"
         private const val KEY_DISPLAY_NAME = "user_display_name"
         private const val KEY_QUIZ_MODE = "quiz_mode"
@@ -18,6 +19,14 @@ class SettingsSessionStorage(private val settings: Settings = Settings()) : Sess
 
     override fun getToken(): String? {
         return settings.getStringOrNull(KEY_TOKEN)
+    }
+
+    override fun saveRefreshToken(token: String) {
+        settings[KEY_REFRESH_TOKEN] = token
+    }
+
+    override fun getRefreshToken(): String? {
+        return settings.getStringOrNull(KEY_REFRESH_TOKEN)
     }
 
     override fun saveUser(email: String, displayName: String) {

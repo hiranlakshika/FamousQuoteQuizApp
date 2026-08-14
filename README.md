@@ -85,6 +85,9 @@ testability. Each feature module is structured into:
 > [!IMPORTANT]
 > The backend is not hosted yet. To use the application, you must run the backend locally first.
 
+You can find the backend source code and instructions to run it at:
+[famous-quote-quiz-backend](https://github.com/hiranlakshika/famous-quote-quiz-backend)
+
 The app expects a backend running at `http://localhost:8080/api/`. You can update this in
 `NetworkingConstants.kt`.
 
@@ -102,7 +105,3 @@ For testing purposes, you can use the following demo account:
 
 - **Email**: `demo@quiz.com`
 - **Password**: `password123`
-
-## License
-
-This project is licensed under the MIT License.

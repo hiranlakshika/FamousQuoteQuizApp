@@ -9,7 +9,9 @@ fun LoginResponseDto.toDomain(): AuthInfo {
     return AuthInfo(
         token = token,
         expiresAt = expiresAt,
-        user = user.toDomain()
+        refreshToken = refreshToken,
+        refreshTokenExpiresAt = refreshTokenExpiresAt,
+        user = user.toDomain(),
     )
 }
 

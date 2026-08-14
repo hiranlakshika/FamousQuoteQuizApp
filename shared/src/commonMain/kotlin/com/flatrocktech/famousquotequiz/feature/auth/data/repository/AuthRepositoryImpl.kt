@@ -30,6 +30,7 @@ class AuthRepositoryImpl(
             }
         }.map { dto ->
             sessionStorage.saveToken(dto.token)
+            sessionStorage.saveRefreshToken(dto.refreshToken)
             sessionStorage.saveUser(dto.user.email, dto.user.displayName)
             dto.toDomain()
         }
