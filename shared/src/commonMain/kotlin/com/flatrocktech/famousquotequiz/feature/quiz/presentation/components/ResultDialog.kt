@@ -30,6 +30,7 @@ import com.flatrocktech.famousquotequiz.core.theme.Dimensions
 import famousquotequiz.shared.generated.resources.Res
 import famousquotequiz.shared.generated.resources.quiz_correct
 import famousquotequiz.shared.generated.resources.quiz_incorrect
+import famousquotequiz.shared.generated.resources.quiz_ok
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -80,7 +81,6 @@ fun ResultDialog(
                     )
                 }
 
-                // Result message
                 Text(
                     text = if (isCorrect) stringResource(Res.string.quiz_correct, correctAnswer)
                     else stringResource(Res.string.quiz_incorrect, correctAnswer),
@@ -89,9 +89,8 @@ fun ResultDialog(
                     textAlign = TextAlign.Center
                 )
 
-                // OK button as per requirement "Once the OK button is clicked"
                 PrimaryButton(
-                    text = "OK",
+                    text = stringResource(Res.string.quiz_ok),
                     onClick = onNextQuestion
                 )
             }
