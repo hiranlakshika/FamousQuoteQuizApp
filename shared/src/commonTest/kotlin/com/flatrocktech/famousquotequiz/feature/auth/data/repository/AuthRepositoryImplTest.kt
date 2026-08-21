@@ -62,6 +62,8 @@ class AuthRepositoryImplTest {
             {
                 "token": "test-token",
                 "expiresAt": "2026-12-31T23:59:59Z",
+                "refreshToken": "test-refresh-token",
+                "refreshTokenExpiresAt": "2027-12-31T23:59:59Z",
                 "user": {
                     "id": 1,
                     "email": "test@example.com",
